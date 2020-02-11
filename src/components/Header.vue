@@ -5,7 +5,7 @@
                 <router-link to="/" class="navbar-brand"> Stock Trader </router-link>
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav nav">
-                        <router-link to="/" activeClass="active" tag="li"><a>Home</a></router-link>
+                        <!-- <router-link to="/" activeClass="active" tag="li"><a>Home</a></router-link> -->
                         <router-link to="/portfolio" tag="li" activeClass="active"><a>Portfolio</a></router-link>
                         <router-link to="/stocks" tag="li" activeClass="active"><a>Stocks</a></router-link>
                     </ul>
