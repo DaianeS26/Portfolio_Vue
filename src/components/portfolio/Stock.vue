@@ -13,14 +13,16 @@
                             type="number"
                             class="form-control"
                             placeholder="Quantity"
-                            v-model.number="quantity">
+                            v-model.number="quantity"
+                            :class="{danger: insufficientQuantity}">
                 </div>
                 <div class="pull-right">
                     <button 
                         class="btn btn-primary"
                         @click="sellStock"
-                        :disabled="quantity <= 0 || !Number.isInteger(quantity)"
-                        >Sell</button>
+                        :class="{dangerButton: insufficientQuantity}"
+                        :disabled="insufficientQuantity || quantity <= 0 || !Number.isInteger(quantity)"
+                        >{{ insufficientQuantity ? 'No Stocks' : 'Sell'}}</button>
                 </div>
             </div>
         </div>
@@ -37,20 +39,37 @@
                 quantity: 0
             }
         },
+        computed: {
+            insufficientQuantity(){
+                return this.quantity > this.stock.quantity;
+            }
+        },
         methods: {
             ...mapActions({
                 placeSellOrder: 'sellStock'
             }),
-          sellStock() {
-            const order = {
-              stockId: this.stock.id,
-              stockPrice: this.stock.price,
-              quantity: this.quantity
-            };
-            this.placeSellOrder(order);
-            this.quantity = 0;
-          }
+            sellStock() {
+                const order = {
+                    stockId: this.stock.id,
+                    stockPrice: this.stock.price,
+                    quantity: this.quantity
+                };
+                this.placeSellOrder(order);
+                this.quantity = 0;
+            }
         }
        
     }
 </script>
+
+<style scoped>
+    .danger{
+        border: 1px red solid;
+        
+    }
+
+    .dangerButton{
+        background-color: red;
+        border: 1px red solid;
+    }
+</style>
